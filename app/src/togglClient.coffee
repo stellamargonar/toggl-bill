@@ -25,18 +25,13 @@ class TogglClient
 		console.log 'requesting '+ requestUrl
 
 		request.get requestUrl, headers, (error, response, body) =>
-			if error
-				console.log error
-			console.log body
 			if error or response.statusCode isnt 200
-				console.log error
 				callback {}
 			else
 				callback JSON.parse body
 
 	getClientList : () ->
 		@_doRequest (@apiConfig.clients.replace ':workspace_id', @profileConfig.workspace_id) , {} , (result) =>
-			console.log result
 			callback result
 
 	getProjectList : (callback) ->
@@ -46,7 +41,6 @@ class TogglClient
 			throw new TypeError 'INVALID_CALLBACK'
 
 		@_doRequest (@apiConfig.projects.replace ':workspace_id', @profileConfig.workspace_id) , {},  (result) => 
-			console.log result
 			if Object.keys(result).length == 0
 				callback {}
 			else 
