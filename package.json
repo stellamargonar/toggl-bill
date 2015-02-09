@@ -1,0 +1,62 @@
+{
+  "name": "toggl-bill",
+  "private": true,
+  "version": "0.0.1",
+  "description": "A project in AngularJS for existating the billable hours for client project tracked with <a href=\"https://www.toggl.com/\">Toggl</a>",
+  "author": {
+    "name": "Stella Margonar",
+    "email": "stella.margonar@gmail.com"
+  },
+  "repository": "",
+  "license": "MIT",
+  "dependencies": {
+    "request": "~2.51.0",
+    "querystring": "~0.2.0",
+    "node-rest-client": "~1.4.3",
+    "async": "~0.9.0"
+  },
+  "devDependencies": {
+    "karma": "~0.10",
+    "protractor": "^1.1.1",
+    "http-server": "^0.6.1",
+    "bower": "^1.3.1",
+    "shelljs": "^0.2.6",
+    "karma-junit-reporter": "^0.2.2",
+    "nock": "~0.52.4",
+    "grunt-istanbul": "~0.4.0",
+    "grunt-contrib-clean": "~0.6.0",
+    "grunt-env": "~0.4.2",
+    "mocha": "~2.1.0",
+    "grunt-mocha-test": "~0.12.6",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-nodeunit": "^0.4.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-sonar-runner": "~2.4.1",
+    "load-grunt-tasks": "^1.0.0",
+    "time-grunt": "^1.0.0",
+    "grunt-mocha-cli": "^1.11.0",
+    "jshint-stylish": "^1.0.0",
+    "grunt-contrib-coffee": "~0.12.0",
+    "grunt-contrib-uglify": "~0.7.0",
+    "should": "~4.4.2"
+  },
+  "scripts": {
+    "postinstall": "bower install",
+
+    "prestart": "npm install",
+    "start": "http-server -a localhost -p 8000 -c-1",
+
+    "pretest": "npm install",
+    "test": "karma start karma.conf.js",
+    "test-single-run": "karma start karma.conf.js  --single-run",
+
+    "preupdate-webdriver": "npm install",
+    "update-webdriver": "webdriver-manager update",
+
+    "preprotractor": "npm run update-webdriver",
+    "protractor": "protractor e2e-tests/protractor.conf.js",
+
+    "update-index-async": "node -e \"require('shelljs/global'); sed('-i', /\\/\\/@@NG_LOADER_START@@[\\s\\S]*\\/\\/@@NG_LOADER_END@@/, '//@@NG_LOADER_START@@\\n' + sed(/sourceMappingURL=angular-loader.min.js.map/,'sourceMappingURL=bower_components/angular-loader/angular-loader.min.js.map','app/bower_components/angular-loader/angular-loader.min.js') + '\\n//@@NG_LOADER_END@@', 'app/index-async.html');\""
+  }
+}

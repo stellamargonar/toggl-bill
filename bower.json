@@ -1,0 +1,16 @@
+{
+  "name": "toggl-bill",
+  "description": "A project in AngularJS for existating the billable hours for client project tracked with <a href=\"https://www.toggl.com/\">Toggl</a>",
+  "version": "0.0.0",
+  "homepage": "https://github.com/stellamargonar/toggl-bill",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "1.2.x",
+    "angular-route": "1.2.x",
+    "angular-loader": "1.2.x",
+    "angular-mocks": "~1.2.x",
+    "html5-boilerplate": "~4.3.0",
+    "bootstrap": "~3.1.1"
+  }
+}
