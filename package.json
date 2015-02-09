@@ -7,6 +7,9 @@
     "name": "Stella Margonar",
     "email": "stella.margonar@gmail.com"
   },
+  "engines": {
+    "node": "0.10.x"
+  },
   "repository": "",
   "license": "MIT",
   "dependencies": {

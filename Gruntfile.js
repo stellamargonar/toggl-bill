@@ -58,7 +58,9 @@ module.exports = function (grunt) {
                     expand: true
                 },
                 files: {
-                    'app/lib/index.js': ['app/src/*.coffee']
+                    'app/lib/index.js': ['app/src/togglClient.coffee'],
+                    'app/lib/server.js' : ['app/src/server.coffee'],
+                    'app/lib/requestHandlers.js'    : ['app/src/requestHandlers.coffee']
                 }      
             }
         },
@@ -72,13 +74,13 @@ module.exports = function (grunt) {
                     src: ['Gruntfile.js']
             },
             js: {
-                src: ['*.js']
+                src: ['app/*.js']
             },
             coffee : {
                 src : ['app/src/*.coffee']
             },
             test: {
-                src: ['app/*/**_test.js']
+                src: ['app/test/*.js']
             }
         },
 
@@ -87,14 +89,14 @@ module.exports = function (grunt) {
                 reporter: 'spec',
                 bail: true
             },
-            all: ['app/*/**_test.js']
+            all: ['app/test/*.js']
         },
 
         mochaTest : {
             options: {
                 reporter: 'spec'
             },
-            src: ['app/*/**_test.js']
+            src: ['app/test/*.js']
         },
 
         watch: {
