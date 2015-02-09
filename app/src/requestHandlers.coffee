@@ -1,5 +1,7 @@
 require_helper = require './require_helper'
 togglClientClass = require_helper('../lib/index').TogglClient;
+url = require 'url'
+querystring = require 'querystring'
 
 start = (response) ->
 	console.log 'request handler start was called'
@@ -26,17 +28,37 @@ project = (response, request, config) ->
 	togglClient = new togglClientClass config.profile, config.api
 
 	togglClient.getProjectList (data) ->
-		console.log data
-		if !data
-			body = '<html><body>500</body></html>'
-		body = '<html><body><ul>'
-		for index, item of data
-			body += '<li>' + item.name + ' [' +item.id +  ']</li>'
-		body += '</ul></body></html>' 
-
-		response.writeHead 200, {"Content-Type": "text/html"}
-		response.write body
+		response.writeHead 200, {"Content-Type": "application/json"}
+		response.write JSON.stringify data
 		response.end()
+
+timeEntries = (response, request, config) ->
+#    projectId = ((url.parse request.url).pathname.split '/')[2]
+
+    query = (url.parse request.url).query
+    if !query
+        response.writeHead 400
+        response.write '400 Bad Request'
+        response.end()
+    else
+        parameters = querystring.parse query
+        if !parameters.projectId
+            response.writeHead 400
+            response.write '400 Bad Request'
+            response.end()
+        else
+            projectId = parameters.projectId
+            startDate = parameters.startDate
+            endDate = parameters.endDate
+
+            togglClient = new togglClientClass config.profile, config.api
+            togglClient.getProjectTimeEntries projectId, startDate, endDate, (data) =>
+                response.writeHead 200, {"Content-Type": "application/json"}
+                response.write JSON.stringify data
+                response.end()
+
+
 
 exports.start = start;
 exports.project = project;
+exports.timeEntries = timeEntries;

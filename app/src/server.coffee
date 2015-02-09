@@ -4,9 +4,9 @@ requestHandlers = require './requestHandlers'
 
 
 handle = 
-	'/'				: requestHandlers.start,
-	'/projects'		: requestHandlers.project,
-	'/project/:id'	: requestHandlers.projectById
+	'/api/'							: requestHandlers.start,
+	'/api/projects'					: requestHandlers.project,
+	'/api/timeEntries'	: requestHandlers.timeEntries
 
 route = (handle, pathname, response, request, config) ->
 	if typeof handle[pathname] is 'function'
