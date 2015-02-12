@@ -10,9 +10,19 @@ angular.module('toggleApp.project', ['ngRoute'])
 }])
 
 .controller('ProjectCtrl', ['$scope', '$http', function($scope, $http) {
-	$scope.stella = "Stella MArg.";
-	$http.get('toggle/projects.json').success(function(data) {
-      $scope.projects = data;
-    });
+	$scope.projects = [{name:'project1', id:12}];
+
+	$scope.updateProjectList = function () {
+		$http.get('/api/projects')
+		.success(function(data) {
+			console.log("RECEIVED:");
+			console.log(data);
+			$scope.projects = data;
+	    })
+	    .error(function(error) {
+	    	console.log("ERROR");
+	    	console.log(error);
+	    });
+	}
 
   }]);

@@ -3,7 +3,8 @@
 	<ul>
 	    <li ng-repeat="project in projects">
 	    	<span>{{project.name}}</span>
-	    	<p>{{project.client}}</p>
+	    	<p>{{project.client_id}}</p>
 	    </li>
 	</ul>
+	<input type="submit" ng-click="updateProjectList()" value="Refresh" />
 </div>

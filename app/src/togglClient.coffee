@@ -25,6 +25,8 @@ class TogglClient
 		console.log 'requesting '+ requestUrl
 
 		request.get requestUrl, headers, (error, response, body) =>
+			if error then console.log error
+			
 			if error or response.statusCode isnt 200
 				callback {}
 			else
@@ -35,6 +37,7 @@ class TogglClient
 			callback result
 
 	getProjectList : (callback) ->
+		#TODO retrieve also CLIENT NAME
 		if !callback
 			throw new Error 'MISSING_PARAMETER'
 		if typeof callback isnt 'function'
