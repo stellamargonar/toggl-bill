@@ -60,6 +60,7 @@ module.exports = function (grunt) {
                 files: {
                     'app/lib/index.js': ['app/src/togglClient.coffee'],
                     'app/lib/server.js' : ['app/src/server.coffee'],
+                    'app/lib/routes.js' : ['app/src/routes.coffee'],
                     'app/lib/requestHandlers.js'    : ['app/src/requestHandlers.coffee']
                 }      
             }

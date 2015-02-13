@@ -1,0 +1,8 @@
+div
+    h2 Project List
+    ul
+        li(ng-repeat="project in projects")
+            span {{project.name}}
+            p {{project.client_id}}
+
+    button(type="submit" , ng-click="updateProjectList()") Refresh
