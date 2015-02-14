@@ -9,16 +9,11 @@ app.controller('MainCtrl', [ '$scope', '$http', function($scope, $http) {
 	$scope.billing = {};
 
 	$scope.computeTotalBilling = function() {
-		var defaultConfig = {
-			salaryPerHour 	: 8,
-			salaryPerCall	: 5
-		};
 		var params = {
 			startDate 	: new Date($scope.timeRange.start).getTime(),
 			endDate		: new Date($scope.timeRange.end).getTime(),
-			config 		: defaultConfig
+			config 		: $scope.config
 		};
-		$scope.config = defaultConfig;
 		$http.get('/api/project/'+$scope.project.id+'/billing', {params:params})
 		.success(function(data) {
 			$scope.billing = data;
@@ -158,11 +153,14 @@ app.controller('ConfigurationCtrl', ['$scope', function($scope){
 			salaryPerHour : localStorage.getItem("toggl.config.hour"),
 			salaryPerCall : localStorage.getItem("toggl.config.call"),
 		};
+		$scope.$parent.$parent.$parent.$parent.config = $scope.configuration;
+
 	};
 	loadConfig();
 
 	$scope.saveConfig = function() {
-		$scope.$parent.$parent.config = $scope.configuration;
+		$scope.$parent.$parent.$parent.$parent.config = $scope.configuration;
+
 		localStorage.setItem("toggl.config.hour", $scope.configuration.salaryPerHour);
 		localStorage.setItem("toggl.config.call", $scope.configuration.salaryPerCall);
 	};
