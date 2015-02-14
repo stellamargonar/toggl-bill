@@ -44,4 +44,8 @@ exports.router = (config) ->
     router.route API_PREFIX + '/project/:pid/timeEntries'
         .get (req, res, next) =>
             requestHandlers.timeEntries req, res, config
+
+    router.route API_PREFIX + '/project/:pid/billing'
+        .get (req, res, next) =>
+            requestHandlers.billing req, res, config
     router

@@ -1,8 +1,26 @@
-div
-    h2 Project List
-    ul
-        li(ng-repeat="project in projects")
-            span {{project.name}}
-            p {{project.client_id}}
+div 
+    div.row
+        div.panel.panel-primary(ng-show="project.name")
+            div.panel-heading
+                h3.panel-title {{ project.name }}
+            div.panel-body
+                p(ng-hide="project.timeEntries") No entries for this project 
+                div(ng-show="project.timeEntries")
+                    div.col-xs-6
+                        ul.list-group
+                            li.list-group-item(ng-repeat="timeEntry in project.timeEntries") {{timeEntry.description}}
+                                span.badge {{timeEntry.duration | time}} 
+                        button.btn.btn-lg.btn-success(ng-click="computeTotalBilling()") $$$$$
 
-    button(type="submit" , ng-click="updateProjectList()") Refresh
+                    div.col-xs-6
+                        div.list-group(ng-show="billing.total")
+                            div.list-group-item.active-success
+                                h3 {{ billing.total | decimal | currency }}
+                            div.list-group-item
+                                h4 {{ billing.totalHour * config.salaryPerHour | decimal | currency }}
+                                    span.pull-right
+                                        small  {{ billing.totalHour | decimal }} hours of work, at € {{ config.salaryPerHour }}
+                            div.list-group-item
+                                h4 {{ billing.totalCalls * config.salaryPerCall | decimal | currency }}
+                                    span.pull-right 
+                                        small  {{ billing.totalCalls }} calls at € {{config.salaryPerCall}}

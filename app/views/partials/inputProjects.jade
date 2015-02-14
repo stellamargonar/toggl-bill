@@ -1,0 +1,21 @@
+div(ng-controller="ProjectsCtrl")
+    form.horizontal-form(ng-submit="searchProject()")
+
+        div.form-group
+            select.form-control(ng-model="selectedProject", ng-options="project as project.name for project in projects ", required)
+                option(value="") Select a project to start
+
+
+        div.form-group
+            div.input-group(ng-controller="DatepickerStartCtrl")
+                input.form-control(type="text", required, datepicker-popup="{{format}}", ng-model="dt", is-open="opened", min-date="minDate", max-date="maxDate", datepicker-options="dateOptions", date-disabled="disabled(date, mode)", ng-required="true" ,close-text="Close")
+                span.input-group-btn
+                    button.btn.btn-default(ng-click="open($event)") <i class="glyphicon glyphicon-calendar"></i>
+
+            div.input-group(ng-controller="DatepickerEndCtrl")
+                input.form-control(type="text", required, datepicker-popup="{{format}}", ng-model="dt", is-open="opened", min-date="minDate", max-date="maxDate", datepicker-options="dateOptions", date-disabled="disabled(date, mode)", ng-required="true" , close-text="Close")
+                span.input-group-btn
+                    button.btn.btn-default(ng-click="open($event)") <i class="glyphicon glyphicon-calendar"></i>
+
+        div.form-group
+            button.btn.btn-primary(type="submit", ng-enabled="$valid") Details

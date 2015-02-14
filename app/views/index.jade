@@ -3,16 +3,27 @@ html(ng-app="togglApp")
     head
         title Toggl Billing App
         meta(charset="utf-8")
-        link(rel="stylesheet", href="bootstrap/dist/css/bootstrap-lumen.min.css")
+        link(rel="stylesheet", href="bootstrap/css/bootstrap-lumen.min.css")
 
-    body
-        h1 TITOLO
-        div(ui-view)
+    body(ng-controller="MainCtrl")
+        div.container-fluid
+            div.row
+                div.jumbotron
+                    h1 Toggl Billing App
+                    p Your time matters
 
+            div.row
+                div.col-xs-6(ng-include="'views/partials/inputProjects.jade'")
+                div.col-xs-6(ng-include="'views/partials/config.jade'")
+
+            div.row
+                div.col-xs-12(ng-include="'views/partials/project.jade'")
 
         script(src="angular/angular.min.js")
         script(src="angular-ui-router/release/angular-ui-router.min.js")
+        script(src="angular-bootstrap/ui-bootstrap-custom-0.12.0.min.js")
+        script(src="angular-bootstrap/ui-bootstrap-custom-tpls-0.12.0.min.js")
+
         script(src="js/app.js")
-        script(src="js/project.js")
 
         //script(data-main="js/main.js" src="js/require.js")

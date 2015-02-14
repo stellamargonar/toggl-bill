@@ -28,13 +28,13 @@ class TogglClient
 			if error then console.log error
 			
 			if error or response.statusCode isnt 200
-				callback {}
+				callback {error: error}
 			else
-				callback JSON.parse body
+				callback {result: JSON.parse body}
 
 	getClientList : () ->
 		@_doRequest (@apiConfig.clients.replace ':workspace_id', @profileConfig.workspace_id) , {} , (result) =>
-			callback result
+			callback result.result
 
 	getProjectList : (callback) ->
 		#TODO retrieve also CLIENT NAME
@@ -44,17 +44,17 @@ class TogglClient
 			throw new TypeError 'INVALID_CALLBACK'
 
 		@_doRequest (@apiConfig.projects.replace ':workspace_id', @profileConfig.workspace_id) , {},  (result) => 
-			if Object.keys(result).length == 0
-				callback {}
+			if !result.result
+				result
 			else 
 				projects = []
-				for project in result
+				for project in result.result
 					newProject = 
 						id 			: project.id 
 						name 		: project.name
 						client_id	: project.cid
 					projects.push newProject
-				callback projects
+				callback {result: projects}
 
 	getProjectTimeEntries : (projectId, startDateString, endDateString, callback) ->
 		if !projectId or !callback
@@ -63,28 +63,33 @@ class TogglClient
 			throw new TypeError 'INVALID_PROJECTID'
 		if typeof callback isnt 'function'
 			throw new TypeError 'INVALID_CALLBACK'
-		if startDateString or endDateString
+		if !startDateString or !endDateString
 			throw new TypeError 'INVALID START END DATE'
 
-		startDate = new Date startDateString
-		endDate = new Date endDateString
+
+		startDate = new Date parseInt(startDateString)
+		endDate = new Date parseInt(endDateString)
 
 		parameters = 
 			workspace_id	: @profileConfig.workspace_id
 			user_agent 		: @profileConfig.user_agent
 			project_ids 	: projectId
-			since 			: startDate if startDate
-			until 			: endDate if endDate
+			since 			: startDate.toISOString() if startDate
+			until 			: endDate.toISOString() if endDate
+
+		console.log parameters
 
 		@_doRequest @apiConfig.detailedReport , parameters , (result) =>
-			if Object.keys(result).length == 0
-				callback {}
+			if !result.result
+				callback result
 			else 
-				entries = result.data
+				entries = result.result.data
 				newEntries = []
 				for entry in entries
 					entryStart 	= new Date(entry.start) if entry.start
 					entryEnd 	= new Date(entry.end) 	if entry.end
+					duration = (entryEnd - entryStart)/1000
+
 					newEntry = 
 						id 				: entry.id
 						description 	: entry.description
@@ -92,8 +97,9 @@ class TogglClient
 						end 			: entryEnd
 						pid 			: entry.pid
 						tags 			: entry.tags
+						duration		: duration
 					newEntries.push newEntry
-				callback newEntries
+				callback {result: newEntries}
 
 
 
