@@ -22,10 +22,12 @@ app.controller('MainCtrl', [ '$scope', '$http', function($scope, $http) {
 		$http.get('/api/project/'+$scope.project.id+'/billing', {params:params})
 		.success(function(data) {
 			$scope.billing = data;
-		})
-		.error(function(error) {
-
 		});
+	}
+
+	$scope.clear = function() {
+		$scope.billing = {};
+		$scope.project = {};
 	}
 
 
@@ -69,7 +71,7 @@ app.controller('ProjectsCtrl', ['$scope', '$http', function($scope, $http) {
 			});
 		};
 
-
+		$scope.$parent.$parent.clear();
 		$scope.$parent.$parent.project = $scope.selectedProject;
 		loadTimeEntries();
 	}
@@ -151,10 +153,19 @@ app.controller('ConfigurationCtrl', ['$scope', function($scope){
 		salaryPerCall	: 0
 	};
 
-	$scope.save = function() {
-		$scope.$parent.config = $scope.configuration;
+	var loadConfig = function() {
+		$scope.configuration = {
+			salaryPerHour : localStorage.getItem("toggl.config.hour"),
+			salaryPerCall : localStorage.getItem("toggl.config.call"),
+		};
 	};
-	// TODO on sumbit store the configuration
+	loadConfig();
+
+	$scope.saveConfig = function() {
+		$scope.$parent.$parent.config = $scope.configuration;
+		localStorage.setItem("toggl.config.hour", $scope.configuration.salaryPerHour);
+		localStorage.setItem("toggl.config.call", $scope.configuration.salaryPerCall);
+	};
 }]);
 
 app.filter('time', function() {

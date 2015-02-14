@@ -2,7 +2,7 @@ accordion(close-others="scope.accordion")
 	accordion-group(is-open="status.open")
 		accordion-heading Configuration
 			i.pull-right.glyphicon(ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}")
-		form.form-horizontal
+		form.form-horizontal(ng-controller="ConfigurationCtrl")
 			div.form-group
 				label.col-sm-2(control-label, for="inputHour") Salary per Hour
 				div.col-sm-10
@@ -17,4 +17,4 @@ accordion(close-others="scope.accordion")
 
 			div.form-group
 				div.col-sm-offset-2.col-sm-10
-					button.btn.btn-primary(type="submit") Save Config
+					button.btn.btn-primary(ng-click="saveConfig()") Save Config
