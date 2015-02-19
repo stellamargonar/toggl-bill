@@ -7,6 +7,7 @@ app.controller('MainCtrl', [ '$scope', '$http', function($scope, $http) {
 	$scope.project = {};
 	$scope.config = {};
 	$scope.billing = {};
+	$scope.group = false;
 
 	$scope.computeTotalBilling = function() {
 		var params = {
@@ -25,6 +26,34 @@ app.controller('MainCtrl', [ '$scope', '$http', function($scope, $http) {
 		$scope.project = {};
 	}
 
+	$scope.groupByTask = function () {
+		var group = $scope.group;
+		var entries = $scope.project.timeEntries;
+		if (!$scope.project.unGroupedTimeEntries) {
+			$scope.project.unGroupedTimeEntries = entries;
+		}
+		if (group && !$scope.project.groupedTimeEntries) {
+			var entryMap = {};
+			for (var index in entries) {
+				var entry = entries[index];
+				var current = (entryMap[entry.description] || 0 ) + entry.duration
+				entryMap[entry.description] = current
+			}
+			var result = [];
+			for (var entry in entryMap ) {
+				result.push({description: entry, duration: entryMap[entry]});
+			}
+
+			$scope.project.groupedTimeEntries = result;
+		}
+
+		if (group) {
+			$scope.project.timeEntries = $scope.project.groupedTimeEntries;
+		}
+		else {
+			$scope.project.timeEntries = $scope.project.unGroupedTimeEntries;	
+		}
+	}
 
 }]);
 
@@ -55,7 +84,6 @@ app.controller('ProjectsCtrl', ['$scope', '$http', function($scope, $http) {
 				startDate 	: new Date($scope.timeRange.start).getTime(),
 				endDate		: new Date($scope.timeRange.end).getTime()
 			};
-			console.log(params);
 			$http.get('/api/project/' + $scope.selectedProject.id + '/timeEntries', {params:params})
 			.success(function(data) {
 				$scope.$parent.$parent.project.timeEntries = data.result;

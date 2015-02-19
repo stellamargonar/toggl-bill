@@ -7,6 +7,11 @@ div
                 p(ng-hide="project.timeEntries") No entries for this project 
                 div(ng-show="project.timeEntries")
                     div.col-xs-6
+                        div.checkbox
+                            label
+                                input(type="checkbox", ng-change="groupByTask()", ng-model="$parent.group")
+                                | Group
+
                         ul.list-group
                             li.list-group-item(ng-repeat="timeEntry in project.timeEntries") {{timeEntry.description}}
                                 span.badge {{timeEntry.duration | time}} 
